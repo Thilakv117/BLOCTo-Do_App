@@ -2,10 +2,8 @@ class ToDoModel {
   int? id;
   String? title;
 
-
   ToDoModel({this.title, this.id});
-
-  ToDoModel.fromJson(Map<String, dynamic> json) {
+   ToDoModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     title = json['title'];
    

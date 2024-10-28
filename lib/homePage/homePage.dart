@@ -44,7 +44,7 @@ class _HomepageState extends State<Homepage> {
                     );
                 titleController.clear();
               },
-              child: Text("Submit"),
+              child: Text("Add"),
             ),
           ],
         ),
@@ -55,8 +55,9 @@ class _HomepageState extends State<Homepage> {
             context,
             MaterialPageRoute(builder: (context) =>  Taskdata()),
           );
+            context.read<ToDoBloc>()..add(FetchData());
         },
-        child: Text("ToDo"),
+        child: Text("Lists"),
       ),
     );
   }

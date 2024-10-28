@@ -5,8 +5,10 @@ import 'package:project_to_do_list/homePage/homePage.dart';
 import 'package:project_to_do_list/screens/TaskData.dart';
 
 class Editpage extends StatefulWidget {
-   final String ids;
-  const Editpage({required this.ids});
+  final String ids;
+  
+  final String title;
+  const Editpage({Key? key, required this.ids, required this.title}): super(key: key);
 
   @override
   State<Editpage> createState() => _EditpageState();
@@ -31,7 +33,7 @@ class _EditpageState extends State<Editpage> {
               decoration: InputDecoration(
                 border:
                     OutlineInputBorder(borderRadius: BorderRadius.circular(20)),
-                label: Text("Title"),
+                label: Text(widget.title),
               ),
             ),
             const SizedBox(
@@ -40,7 +42,11 @@ class _EditpageState extends State<Editpage> {
             const SizedBox(height: 10),
             ElevatedButton(
               onPressed: () {
-                 context.read<ToDoBloc>().add(EditData(id: widget.ids, title: titleController.text));
+                context
+                    .read<ToDoBloc>()
+                    .add(EditData(id: widget.ids, title: titleController.text));
+                titleController.clear();
+                Navigator.pop(context, true);
               },
               child: Text("Edit"),
             ),

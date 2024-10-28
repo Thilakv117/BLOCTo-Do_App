@@ -6,7 +6,7 @@ import 'package:project_to_do_list/models/http_model.dart';
 import 'package:project_to_do_list/screens/EditPage.dart';
 
 class Taskdata extends StatefulWidget {
-   Taskdata({Key? key}) : super(key: key);
+  Taskdata({Key? key}) : super(key: key);
 
   @override
   State<Taskdata> createState() => _TaskdataState();
@@ -14,7 +14,13 @@ class Taskdata extends StatefulWidget {
 
 class _TaskdataState extends State<Taskdata> {
   List<ToDoModel> lists = [];
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
 
+  @override
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,6 +39,7 @@ class _TaskdataState extends State<Taskdata> {
                 itemBuilder: (context, index) {
                   final list = lists[index];
                   var id = list.id;
+                  var title = list.title;
 
                   return ListTile(
                     leading: Text("${index + 1}"),
@@ -48,22 +55,31 @@ class _TaskdataState extends State<Taskdata> {
                           value: "Delete",
                         ),
                       ],
-                      onSelected: (value) {
+                      onSelected: (value) async {
                         if (value == "Edit") {
+                          setState(() {});
                           //Edit task
-                          Navigator.push(
+                          final result = await Navigator.push(
                             context,
                             MaterialPageRoute(
                               builder: (context) => Editpage(
                                 ids: list.id.toString(),
+                                title: list.title.toString(),
                               ),
                             ),
                           );
-                          ;
+                          if (result == true) {
+                            context.read<ToDoBloc>().add(FetchData());
+                          }
+                          setState(() {});
                         } else if (value == "Delete") {
-                          context
-                              .read<ToDoBloc>()
-                              .add(DeleteData(id: id.toString()));
+                          context.read<ToDoBloc>().add(
+                                DeleteData(
+                                  id: id.toString(),
+                                ),
+                              );
+
+                          setState(() {});
                         }
                       },
                     ),
@@ -75,12 +91,6 @@ class _TaskdataState extends State<Taskdata> {
             }
           },
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          context.read<ToDoBloc>()..add(FetchData());
-        },
-        child: Text("Show"),
       ),
     );
   }

@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:project_to_do_list/bloc/to_do_bloc.dart';
@@ -19,6 +21,8 @@ class MyApp extends StatelessWidget {
         ),
       ],
       child: MaterialApp(
+         scrollBehavior: const MaterialScrollBehavior()
+          .copyWith(dragDevices: PointerDeviceKind.values.toSet()),
         debugShowCheckedModeBanner: false,
         home: Homepage(),
       ),
